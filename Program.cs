@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPS;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -6,7 +7,46 @@ namespace RockPaperScissors
 {
     class Program
     {
+        private static bool _quitGame;
+
+        private Program()
+        {
+            _quitGame = new bool();
+        }
         static void Main(string[] args)
+        {
+            GameManager GM = new GameManager();
+
+            while (!_quitGame)
+            {
+               
+                rpsChoice userChoice = GM.GetUserChoice();
+
+                rpsChoice computerChoice = GM.GetComputerChoice();
+
+                string score = GM.ScoreBoard(userChoice, computerChoice);
+
+                Console.WriteLine(score);
+
+                string message = GM.CompareChoices(userChoice, computerChoice);
+
+                Console.WriteLine(message);
+
+                var key = Console.ReadKey();
+
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    _quitGame = true;
+
+                }
+
+                else _quitGame = false;
+
+                Console.Clear();
+            }
+        }
+
+        static void oldMain(string[] args)
         {
 
             List<string> inputs = new List<string>();
@@ -75,13 +115,13 @@ namespace RockPaperScissors
                 playerChoice = Console.ReadLine().ToLower();
             }
 
-            while(!inputs.Contains(playerChoice))
+            while (!inputs.Contains(playerChoice))
             {
                 Console.WriteLine("Invalid input! Choose a valid input");
                 playerChoice = Console.ReadLine().ToLower();
             }
 
-           //Need to figure out how to validate the user input being rock, paper, scissors, or exit only.
+            //Need to figure out how to validate the user input being rock, paper, scissors, or exit only.
 
             if (playerChoice == "exit")
             {

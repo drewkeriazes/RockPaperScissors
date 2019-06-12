@@ -7,40 +7,27 @@ namespace RockPaperScissors
 {
     class Program
     {
-        private static bool _quitGame;
-
-        private Program()
-        {
-            _quitGame = new bool();
-        }
         static void Main(string[] args)
         {
             GameManager GM = new GameManager();
 
-            while (!_quitGame)
+            while (!GM.QuitGame)
             {
-               
                 rpsChoice userChoice = GM.GetUserChoice();
 
                 rpsChoice computerChoice = GM.GetComputerChoice();
+
+                string message = GM.CompareChoices(userChoice, computerChoice);
 
                 string score = GM.ScoreBoard(userChoice, computerChoice);
 
                 Console.WriteLine(score);
 
-                string message = GM.CompareChoices(userChoice, computerChoice);
-
                 Console.WriteLine(message);
 
                 var key = Console.ReadKey();
 
-                if (key.Key == ConsoleKey.Escape)
-                {
-                    _quitGame = true;
-
-                }
-
-                else _quitGame = false;
+                GM.displayOutcome(score, message);
 
                 Console.Clear();
             }

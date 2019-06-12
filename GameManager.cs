@@ -7,23 +7,20 @@ namespace RPS
 {
     public class GameManager
     {
+
+        private List<string> _inputs;
+        private Random _random;
+        private int _playerScore;
+        private int _computerScore;
+
         public GameManager()
         {
             _random = new Random();
-            _inputs = new List<string>();
-            _inputs.Add("rock");
-            _inputs.Add("paper");
-            _inputs.Add("scissors");
-            _inputs.Add("exit");
-            _playerScore = new int();
-            _computerScore = new int();
-
+            _inputs = new List<string>() { "rock", "paper", "scissors", "exit" };
+            _playerScore = 0;
+            _computerScore = 0;
         }
-        private List<string> _inputs;
-        private Random _random;
-        private int _playerScore = 0;
-        private int _computerScore = 0;
-        
+        public bool QuitGame { get; private set; }
 
         public rpsChoice GetUserChoice()
         {
@@ -52,7 +49,10 @@ namespace RPS
             }
             else if (userChoice == "exit")
             {
-                return rpsChoice.Exit;
+                Console.WriteLine("Goodbye");
+                Console.ReadKey();
+                QuitGame = true;
+                
             }
 
             throw new Exception("Invalid Entry");
@@ -84,7 +84,7 @@ namespace RPS
 
             else
                 _computerScore++;
-                return "You Lose! Play again? Press 'Escape' key to Exit";
+            return "You Lose! Play again? Press 'Escape' key to Exit";
 
         }
         public string ScoreBoard(rpsChoice userChoice, rpsChoice computerChoice)
@@ -98,7 +98,16 @@ namespace RPS
                 userChoice == rpsChoice.Paper && computerChoice == rpsChoice.Rock);
         }
 
+        public void displayOutcome(string score ,string message)
+        {
+            Console.WriteLine(score);
 
+            Console.WriteLine(message);
+
+            var key = Console.ReadKey();
+
+            QuitGame = key.Key == ConsoleKey.Escape;
+        }
     }
 }
 
